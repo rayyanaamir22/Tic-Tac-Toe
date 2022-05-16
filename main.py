@@ -1,39 +1,39 @@
 '''
 Name: Rayyan Aamir
-Date: November 4, 2021
+Date: May 15, 2022
 Program: Tic-Tac-Toe (modified for 1 or 2 players)
 '''
 
 # Modules
-import functions
+import functions as f
 
 # Program begins
-print('Welcome to Tic-Tac-Toe!')
-
 while True:
-    functions.playerOrAI()
-    if functions.opponent == 'AI':
+    print('Welcome to Tic-Tac-Toe!\n')
+  
+    f.playerOrAI()
+    if f.opponent == 'AI':
         # Reset the board.
         theBoard = [' '] * 10
-        playerLetter, computerLetter = functions.inputPlayerLetter()
-        turn = functions.whoGoesFirst()
-        print('The ' + turn + ' will go first.')
+        playerLetter, computerLetter = f.inputPlayerLetter()
+        turn = f.whoGoesFirst()
+        print(f'The {turn} will go first.')
         gameIsPlaying = True
 
         while gameIsPlaying:
             if turn == 'player':
                 # Player's turn
-                functions.drawBoard(theBoard)
-                move = functions.getPlayerMove(theBoard)
-                functions.makeMove(theBoard, playerLetter, move)
+                f.drawBoard(theBoard)
+                move = f.getPlayerMove(theBoard)
+                f.makeMove(theBoard, playerLetter, move)
 
-                if functions.isWinner(theBoard, playerLetter):
-                    functions.drawBoard(theBoard)
+                if f.isWinner(theBoard, playerLetter):
+                    f.drawBoard(theBoard)
                     print('Hooray! You have won the game!')
                     gameIsPlaying = False
                 else:
-                    if functions.isBoardFull(theBoard):
-                        functions.drawBoard(theBoard)
+                    if f.isBoardFull(theBoard):
+                        f.drawBoard(theBoard)
                         print('The game is a tie!')
                         break
                     else:
@@ -41,43 +41,42 @@ while True:
 
             else:
                 # Computer's turn
-                move = functions.getComputerMove(theBoard, computerLetter)
-                functions.makeMove(theBoard, computerLetter, move)
-
-                if functions.isWinner(theBoard, computerLetter):
-                    functions.drawBoard(theBoard)
-                    print('The computer has beaten you! You lose.')
+                move = f.getComputerMove(theBoard, computerLetter)
+                f.makeMove(theBoard, computerLetter, move)
+                if f.isWinner(theBoard, computerLetter):
+                    f.drawBoard(theBoard)
+                    print('You lose.')
                     gameIsPlaying = False
                 else:
-                    if functions.isBoardFull(theBoard):
-                        functions.drawBoard(theBoard)
-                        print('The game is a tie!')
+                    if f.isBoardFull(theBoard):
+                        f.drawBoard(theBoard)
+                        print('Draw.')
                         break
                     else:
                         turn = 'player'
     # If user selects 2-player option, run this code
-    elif functions.opponent == 'Player 2':
+    elif f.opponent == 'Player 2':
         # Reset the board.
         theBoard = [' '] * 10
-        playerLetter, player2Letter = functions.inputPlayerLetter()
-        turn = functions.whoGoesFirst()
-        print('' + turn + ' will go first.')
+        playerLetter, player2Letter = f.inputPlayerLetter()
+        turn = f.whoGoesFirst()
+        print(f'{turn} will go first.')
         gameIsPlaying = True
 
         while gameIsPlaying:
             if turn == 'Player 1':
                 # Player 1's turn
-                functions.drawBoard(theBoard)
-                move = functions.getPlayerMove(theBoard)
-                functions.makeMove(theBoard, playerLetter, move)
+                f.drawBoard(theBoard)
+                move = f.getPlayerMove(theBoard)
+                f.makeMove(theBoard, playerLetter, move)
 
-                if functions.isWinner(theBoard, playerLetter):
-                    functions.drawBoard(theBoard)
+                if f.isWinner(theBoard, playerLetter):
+                    f.drawBoard(theBoard)
                     print('Player 1 has won the game!')
                     gameIsPlaying = False
                 else:
-                    if functions.isBoardFull(theBoard):
-                        functions.drawBoard(theBoard)
+                    if f.isBoardFull(theBoard):
+                        f.drawBoard(theBoard)
                         print('The game is a tie!')
                         break
                     else:
@@ -85,25 +84,24 @@ while True:
 
             else:
                 # Player 2's turn
-                functions.drawBoard(theBoard)
-                move = functions.getPlayer2Move(theBoard)
-                functions.makeMove(theBoard, player2Letter, move)
+                f.drawBoard(theBoard)
+                move = f.getPlayer2Move(theBoard)
+                f.makeMove(theBoard, player2Letter, move)
 
-                if functions.isWinner(theBoard, player2Letter):
-                    functions.drawBoard(theBoard)
+                if f.isWinner(theBoard, player2Letter):
+                    f.drawBoard(theBoard)
                     print('Player 2 has won the game!')
                     gameIsPlaying = False
                 else:
-                    if functions.isBoardFull(theBoard):
-                        functions.drawBoard(theBoard)
+                    if f.isBoardFull(theBoard):
+                        f.drawBoard(theBoard)
                         print('The game is a tie!')
                         break
                     else:
                         turn = 'Player 1'
     
     # Ask player if they want to play again. The function already has a while loop to ensure the user gives a valid entry. If the response is not true, the game loop breaks and the program ends
-    if functions.playAgain() != True:
-      break
-    else:
-      # If user says yes to playing again
+    if f.reuse():
       continue
+    else:
+      break
