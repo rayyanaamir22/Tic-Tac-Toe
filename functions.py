@@ -1,8 +1,9 @@
 # FUNCTIONS
 
-
+# Modules
 import random
 import os
+import time
 
 def drawBoard(board):
     # This function prints out the board that it was passed.
@@ -54,14 +55,11 @@ def whoGoesFirst():
             return 'player'
         else:
             return 'computer'
-    elif opponent == 'Player 2':
+    else:
         if random.randint(0, 1) == 0:
             return 'Player 1'
         else:
             return 'Player 2'
-    else:
-        # Just filling out the else statement, this should never occur though.
-        raise Exception('Something went wrong!')
 
 def makeMove(board, letter, move):
     board[move] = letter
@@ -129,6 +127,11 @@ def getComputerMove(board, computerLetter):
     else:
         playerLetter = 'X'
 
+    # Create delay for computer to take turn
+    drawBoard(board) # Show the previous board
+    time.sleep(1) # Delay is 1 second
+    os.system('clear') # Clear the screen; the board will be replaced when the computer makes its turn
+
     # Here is the algorithm for our Tic-Tac-Toe AI:
     # First, check if we can win in the next move.
     # For loop has range(1, 10) which creates 9 iterations of 1 to 9 since 10 is exclusive.
@@ -170,13 +173,13 @@ def isBoardFull(board):
             return False
     return True
 
-def playAgain():
+def reuse():
     while True:
       print('Do you want to play again? (yes or no)')
-      playAgain = input()
-      if playAgain.lower().startswith('y'):
+      re = input()
+      if re.lower().startswith('y'):
         return True
-      elif playAgain.lower().startswith('n'):
+      elif re.lower().startswith('n'):
         return False
       else:
         print('Invalid input')
