@@ -1,6 +1,6 @@
 // Javascript src
 
-const title = "TIC TAC TOE";
+const title = "TIC-TAC-TOE";
 
 // Display board whenever necessary
 function drawBoard(board) {
@@ -11,15 +11,15 @@ function drawBoard(board) {
     console.log(board[7] + '|' + board[8] + '|' + board[9]);
 }
 
-function isSpaceFree(board, index) {
-    if (board[index] == ' ') {
+function isSpaceFree(board, move) {
+    if (board[move-1] == ' ') { // -1 for indexing
         return true;
     } 
     return false;
 }
 
 // Determine if opponent is another player or AI
-function numPlayers() {
+function getNumPlayers() {
     while (true) {
         n = readInt('Enter number of players (1 or 2): ');
         if (n==1 || n==2) {
@@ -47,7 +47,12 @@ function getPlayerLetters() {
 }
 
 function whoGoesFirst(player1Name, player2Name) { // Unfinished--need a random method
-    return player1Name;
+    var r = (Math.floor(Math.random()));
+    if (r==1) {
+        return player1Name;
+    } else {
+        return player2Name;
+    }
 }
 
 function getPlayerMove(playerName) {
@@ -60,12 +65,13 @@ function getPlayerMove(playerName) {
                 console.log("Choose an empty space!"); // Not empty
             }
         } else {
-            console.log("Choose a space on the board (1-9)!");
+            console.log("That space doesn't exist!");
         }
     }
 }
 
 function getComputerMove(board, letter) {
+    // Record player1's letter to check if they're winning
     if (letter == 'X') {
         playerLetter = 'O';
     } else {
@@ -78,6 +84,7 @@ function getComputerMove(board, letter) {
         if (isSpaceFree(board, i)) {
             makeMove(board, letter, i);
             if (isWinner(board, letter)) {
+                //delete BoardCopy;
                 return i;
             }
         }
@@ -89,13 +96,14 @@ function getComputerMove(board, letter) {
         if (isSpaceFree(board, i)) {
             makeMove(board, playerLetter);
             if (isWinner(board, playerLetter)) {
+                //delete boardCopy;
                 return i;
             }
         }
     }
 
     // Take a corner if available
-    for (i=0; i<9; i+2) { // 1, 3, 7, 9
+    for (i=0; i<9; i+=2) { // spaces 1, 3, 7, 9
         if (isSpaceFree(board, i) && (i!=4)) { // Skip 5
             return i;
         }
@@ -107,7 +115,7 @@ function getComputerMove(board, letter) {
     }
 
     // Take whatever space remains
-    for (i=1; i<8; i+2) {
+    for (i=1; i<9; i+=2) { // Only 2, 4, 6, 8 remain
         if (isSpaceFree(board, i)) {
             return i;
         }
@@ -155,22 +163,21 @@ function reuse(thisCode) {
 }
 
 function main() {
-    while (true) {
+    while (true) { // Main menu loop
         console.log(title, "\n");
 
         // Define player names
         const playerName = 'Player1';
-        var opponent;
-        if (numPlayers() == 1) {
+        if (getNumPlayers() == 1) {
             opponentName = 'AI';
         } else {
             opponentName = 'Player2';
         }
 
-        // Initialize inner loop
+        // Initialize innermost (with param (!gameIsDone)) loop
         gameIsDone = false;
 
-        while (true) {
+        while (true) { // Game start loop
             var theBoard = [' '] * 9; // Define empty board
 
             // Define player symbols
@@ -178,7 +185,7 @@ function main() {
             playerLetter, opponentLetter = getPlayerLetters(); 
 
             // Randomly choose who goes first
-            turn = whoGoesFirst();
+            turn = whoGoesFirst(playerName, opponentName);
 
             while (!gameIsDone) {
                 if (turn == playerName) { // Player turn
@@ -191,10 +198,10 @@ function main() {
                     // Check followup game status
                     if (isWinner(theBoard, playerLetter)) {
                         drawBoard(theBoard);
-                        console.log("Player 1 wins!");
+                        console.log("\nPlayer 1 wins!\n");
                     } else if (boardIsFull(theBoard)) {
                         drawBoard(theBoard);
-                        console.log("Game is a draw!");
+                        console.log("\nGame is a draw!\n");
                     } else {
                         turn = opponentName;
                         gameIsDone = false;
@@ -215,10 +222,10 @@ function main() {
                     // Check followup game status
                     if (isWinner(theBoard, playerLetter)) {
                         drawBoard(theBoard);
-                        console.log(opponentName + " wins!");
+                        console.log("\n" + opponentName + " wins!\n");
                     } else if (boardIsFull(theBoard)) {
                         drawBoard(theBoard);
-                        console.log("Game is a draw!");
+                        console.log("\nGame is a draw!\n");
                     } else {
                         turn = playerName;
                         gameIsDone = false;
@@ -226,13 +233,15 @@ function main() {
                 }
             }
 
-            if (reuse(title)) {
+            // Reuse the game 
+            if (reuse(title)) { 
                 continue;
             } else {
                 break; // Exit game loop
             }
         }
         
+        // Main menu
         if (reuse("the program")) {
             continue;
         } else {
