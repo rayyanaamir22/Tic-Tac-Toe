@@ -1,2 +1,3 @@
 # Tic-Tac-Toe
-Python Tic-Tac-Toe with 1- or 2-player options.
+
+Simple Tic-Tac-Toe game with 1- or 2-player options.
